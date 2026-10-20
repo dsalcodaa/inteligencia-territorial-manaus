@@ -1,0 +1,36 @@
+{
+ "fonte": "IBGE — CNEFE Censo Demográfico 2022 (Manaus)",
+ "url": "https://ftp.ibge.gov.br/Cadastro_Nacional_de_Enderecos_para_Fins_Estatisticos/Censo_Demografico_2022/Arquivos_CNEFE/CSV/Municipio/13_AM/1302603_MANAUS.zip",
+ "licenca": "Dados abertos IBGE (citar fonte)",
+ "coletado_em": "2026-10-20T19:43:06+00:00",
+ "registros": 878488,
+ "por_especie": {
+  "Domicílio particular": 737542,
+  "Domicílio coletivo": 470,
+  "Estabelecimento agropecuário": 949,
+  "Estabelecimento de ensino": 1743,
+  "Estabelecimento de saúde": 1056,
+  "Comércio, serviços e outras finalidades": 100745,
+  "Edificação em construção/reforma": 28118,
+  "Estabelecimento religioso": 7865
+ },
+ "pct_coordenada_de_endereco": 99.9,
+ "segmentos_pct": {
+  "Ponto vago, fechado ou à venda/aluguel": 7.9,
+  "Alimentação e bebidas": 12.4,
+  "Mercados, feiras e açougues": 9.7,
+  "Saúde e bem-estar": 2.0,
+  "Beleza": 5.1,
+  "Automotivo": 5.1,
+  "Construção e ofícios": 4.7,
+  "Hospedagem": 0.2,
+  "Educação, cultura e lazer": 2.5,
+  "Serviços profissionais e técnicos": 4.8,
+  "Indústria, atacado e logística": 3.8,
+  "Varejo e variedades": 6.6,
+  "Ponto comercial sem especificação": 7.1,
+  "Sem identificação": 3.8,
+  "Outros (não classificado)": 24.2
+ },
+ "pct_segmento_especifico": 57.1
+}

@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inteligência Territorial</title>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<style>
+  :root {
+    color-scheme: light;
+    --bg:#f9f9f7; --card:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --mut:#898781; --line:#e1e0d9; --axis:#c3c2b7;
+    --s1:#2a78d6; --track:#cde2fb; --warn:#7a5200; --warnbg:#fff4d6;
+  }
+  @media (prefers-color-scheme: dark) { :root:where(:not([data-theme="light"])) {
+    color-scheme: dark; --bg:#0d0d0d; --card:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --line:#2c2c2a; --axis:#383835;
+    --s1:#3987e5; --track:#0d366b; --warn:#f5d58a; --warnbg:#3a2f10; } }
+  :root[data-theme="dark"] { color-scheme: dark; --bg:#0d0d0d; --card:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --line:#2c2c2a; --axis:#383835;
+    --s1:#3987e5; --track:#0d366b; --warn:#f5d58a; --warnbg:#3a2f10; }
+  * { box-sizing:border-box }
+  body { margin:0; font:14px system-ui,-apple-system,"Segoe UI",sans-serif; background:var(--bg); color:var(--ink); display:flex; height:100vh }
+  aside { width:560px; padding:16px; overflow-y:auto; overflow-x:hidden; background:var(--bg); border-right:1px solid var(--line) }
+  #map { flex:1 }
+  h1 { font-size:16px; margin:0 0 2px } h2 { font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--mut); margin:18px 0 6px }
+  button, select { font:inherit; padding:7px 10px; border:1px solid var(--line); background:var(--card); color:var(--ink); border-radius:6px; cursor:pointer }
+  button.p { background:var(--s1); color:#fff; border-color:var(--s1) } button:disabled { opacity:.45; cursor:default }
+  table { width:100%; border-collapse:collapse; font-size:11.5px } td,th { padding:4px 3px; border-bottom:1px solid var(--line); text-align:left }
+  .mut { color:var(--mut); font-size:12px } .st { display:inline-block; padding:1px 6px; border-radius:9px; font-size:11px; border:1px solid var(--line) }
+  .ok { color:#16a34a }
+
+  /* dashboard */
+  .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-top:10px }
+  .span2 { grid-column:1 / -1 }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px 14px; min-width:0 }
+  .card h3 { margin:0 0 2px; font-size:13px; font-weight:600 } .card .sub { color:var(--mut); font-size:11.5px; margin-bottom:8px }
+  .tile .lbl { color:var(--ink2); font-size:12px } .tile .val { font-size:26px; font-weight:600; line-height:1.15; margin:2px 0 } .tile.hero .val { font-size:40px }
+  .tile .note { color:var(--mut); font-size:11.5px }
+  .meter { margin:9px 0 } .m-h { display:flex; justify-content:space-between; font-size:12.5px } .m-h b { font-weight:600 }
+  .m-track, .bl-t { background:var(--track); border-radius:4px; height:8px; margin-top:4px; overflow:hidden }
+  .m-fill, .bl-f { background:var(--s1); height:100%; border-radius:0 4px 4px 0 }
+  .m-n { color:var(--mut); font-size:11px; margin-top:2px }
+  .bl { display:grid; grid-template-columns:168px 1fr 96px; align-items:center; gap:8px; margin:6px 0; font-size:12px }
+  .bl-l { color:var(--ink2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis } .bl-v { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap }
+  .bl-t { margin:0; height:10px } .meter, .bl { cursor:default }
+  .warn { background:var(--warnbg); color:var(--warn); border-radius:6px; padding:7px 9px; font-size:11.5px; margin-top:8px }
+  details { margin-top:8px } summary { cursor:pointer; color:var(--ink2); font-size:11.5px }
+  #tt { position:fixed; pointer-events:none; z-index:9; background:var(--ink); color:var(--bg); padding:5px 8px; border-radius:6px; font-size:12px; max-width:280px; display:none }
+  input[type=text], input[type=number], input:not([type]) { font:inherit; padding:6px 8px; border:1px solid var(--line); background:var(--card); color:var(--ink); border-radius:6px; min-width:0 }
+  #empNome { width:230px } #fbBusca { width:100% }
+  .fbrow { display:flex; gap:10px; margin:6px 0; flex-wrap:wrap } .fbrow label { font-size:12px; color:var(--ink2) } .fbrow input { width:110px; display:block }
+  #fbList { max-height:200px; overflow-y:auto; border:1px solid var(--line); border-radius:6px; background:var(--card); margin:6px 0 }
+  .fb { display:flex; align-items:center; gap:8px; padding:4px 8px; font-size:12.5px; border-bottom:1px solid var(--line); cursor:pointer }
+  .fb span.mut { margin-left:auto; font-size:11px; white-space:nowrap }
+  .dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:4px }
+  ul.interp { margin:6px 0 0; padding-left:18px; font-size:12.5px; color:var(--ink2) } ul.interp li { margin:4px 0 }
+  .legend span { display:inline-block; margin-right:10px; font-size:12px }
+  @media (max-width:900px){ body{flex-direction:column-reverse} aside{width:100%;height:55vh;border-right:0} #map{height:45vh} .grid{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<aside>
+  <h1>Inteligência Territorial · Manaus</h1>
+  <div class="mut">MVP · IBGE Censo 2022 · OpenStreetMap</div>
+
+  <h2>Área de estudo</h2>
+  <button id="draw">Desenhar polígono</button> <button id="finish" disabled>Concluir</button> <button id="clear">Limpar</button>
+  <p class="mut" id="hint">Clique no mapa para adicionar vértices; "Concluir" fecha o polígono.</p>
+
+  <h2>Meu empreendimento</h2>
+  <input id="empNome" placeholder="Nome do empreendimento" maxlength="80">
+  <select id="empRaio"><option value="500">500 m</option><option value="1000" selected>1 km</option><option value="2000">2 km</option><option value="3000">3 km</option><option value="5000">5 km</option></select>
+  <button id="empBtn">Marcar ponto no mapa</button>
+  <button id="bufBtn" disabled title="Mostra/oculta o círculo e os anéis de distância do empreendimento">Ocultar área de influência</button>
+  <p class="mut">Clique em "Marcar ponto" e depois no mapa; arraste o marcador para reposicionar. Área de influência = círculo em linha reta, não tempo de deslocamento.</p>
+
+  <h2>Filtro de bairros</h2>
+  <input id="fbBusca" placeholder="Buscar bairro…" autocomplete="off">
+  <div class="fbrow"><label>Renda mediana mín. (R$) <input id="fbRenda" type="number" min="0" step="100"></label>
+  <label>População mín. <input id="fbPop" type="number" min="0" step="1000"></label></div>
+  <div id="fbList"></div>
+  <div><button id="fbTodos">Marcar filtrados</button> <button id="fbLimpar">Limpar seleção</button> <button class="p" id="fbAnalisar" disabled>Analisar selecionados</button></div>
+  <div id="fbInfo" class="mut"></div>
+
+  <div id="dash"></div>
+
+  <h2>Camadas OSM</h2>
+  <label><input type="checkbox" data-camada="vias"> Vias (arteriais/coletoras)</label><br>
+  <label><input type="checkbox" data-camada="infra"> Transporte e infraestrutura</label><br>
+  <label><input type="checkbox" data-camada="edificacoes"> Galpões, comerciais e industriais</label><br>
+  <label><input type="checkbox" id="cnefeCb"> Endereços CNEFE na área analisada</label>
+  <div class="legend mut"><span><i class="dot" style="background:#2a78d6"></i>Residencial</span><span><i class="dot" style="background:#eb6834"></i>Comércio/serviços</span><span><i class="dot" style="background:#1baf7a"></i>Ensino, saúde, religioso</span></div>
+  <div id="cnefeNote" class="mut"></div>
+
+  <h2>Concorrência</h2>
+  <select id="cat"></select> <button id="conc" disabled>Analisar</button>
+  <button class="p" id="pdf" disabled>Gerar PDF</button>
+
+  <h2>Imóveis (preço anunciado)</h2>
+  <select id="fin"><option value="venda">Venda</option><option value="aluguel">Aluguel</option></select>
+  <label class="mut"><input type="checkbox" id="demo"> incluir dados DEMO fictícios</label>
+  <div id="imv" class="mut">Sem anúncios importados.</div>
+
+  <h2>Contexto</h2><div id="ctx" class="mut">carregando…</div>
+  <h2>Fontes de dados</h2><div id="src"></div>
+</aside>
+<div id="map"></div>
+<div id="tt"></div>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fc=f=>({type:'FeatureCollection',features:f});
+const N=v=>v==null?'—':Number(v).toLocaleString('pt-BR');
+const P=v=>v==null?'—':Number(v).toLocaleString('pt-BR',{maximumFractionDigits:1})+'%';
+
+/* ---------- componentes de dashboard (sequencial 1 matiz, tinta neutra, marcas finas) ---------- */
+const tip=t=>`data-tip="${esc(t)}"`;
+const tile=(lbl,val,note,{hero=false,span2=false,t=''}={})=>`<div class="card tile ${hero?'hero':''} ${span2?'span2':''}" ${t?tip(t):''}><div class="lbl">${esc(lbl)}</div><div class="val">${val}</div><div class="note">${note||''}</div></div>`;
+const meter=(lbl,pct,note,t)=>`<div class="meter" ${tip(t||lbl)}><div class="m-h"><span>${esc(lbl)}</span><b>${P(pct)}</b></div><div class="m-track"><div class="m-fill" style="width:${pct==null?0:Math.min(100,pct)}%"></div></div><div class="m-n">${note||''}</div></div>`;
+const bars=(rows,max)=>{ const m=max??Math.max(1,...rows.map(r=>r.v||0));
+  return rows.map(r=>`<div class="bl" ${tip(r.tip||`${r.l}: ${r.fmt}`)}><span class="bl-l" title="${esc(r.l)}">${esc(r.l)}</span><div class="bl-t"><div class="bl-f" style="width:${100*(r.v||0)/m}%"></div></div><span class="bl-v">${r.fmt}</span></div>`).join('') };
+const asTable=(head,rows)=>`<details><summary>Ver como tabela</summary><table><tr>${head.map(h=>`<th>${esc(h)}</th>`).join('')}</tr>${rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</table></details>`;
+const card=(title,sub,body,{span2=false}={})=>`<div class="card ${span2?'span2':''}"><h3>${esc(title)}</h3><div class="sub">${sub||''}</div>${body}</div>`;
+
+const tt=$('tt');
+document.addEventListener('mousemove',e=>{ const el=e.target.closest&&e.target.closest('[data-tip]');
+  if(!el){ tt.style.display='none'; return } tt.textContent=el.dataset.tip; tt.style.display='block';
+  tt.style.left=Math.min(e.clientX+12,innerWidth-296)+'px'; tt.style.top=(e.clientY+14)+'px' });
+
+const NOMES_SAN={agua:'Água por rede geral',esgoto:'Esgoto em rede geral/pluvial',lixo:'Lixo coletado no domicílio'};
+const NOMES_INF={pav:'Via pavimentada',bueiro:'Bueiro / boca de lobo',ilum:'Iluminação pública',calcada:'Calçada',arvore:'Arborização (≥1 árvore)',rampa:'Rampa p/ cadeirante',onibus:'Ponto de ônibus na própria face'};
+
+function metaCard(){
+  if(meta.tipo==='ponto'){ const b=meta.bairro;
+    return card('Empreendimento · '+meta.nome,`${meta.lat.toFixed(5)}, ${meta.lon.toFixed(5)}`,
+      `<div class="grid" style="margin-top:0">${tile('Bairro (IBGE)',b?esc(b.nome):'fora de bairro',b?`pop. ${N(b.populacao)} · renda mediana R$ ${N(b.renda_mediana)}`:'ponto fora dos limites de bairros do IBGE')}
+       ${tile('Área de influência','raio '+N(meta.raio_m)+' m','anéis: '+(meta.aneis||[]).map(a=>N(a.raio_m)+' m').join(' · ')+' · linha reta, não é tempo de deslocamento')}</div>`,{span2:true}) }
+  if(meta.tipo==='bairros') return card('Bairros selecionados · '+meta.bairros.length,'União dos bairros como área de estudo',`<span class="mut">${esc(meta.bairros.join(', '))}</span>`,{span2:true});
+  return '';
+}
+const pq=()=>meta.tipo==='ponto'?`&lon=${meta.lon}&lat=${meta.lat}`:'';
+
+const SEG_ESP={1:'Domicílio particular',2:'Domicílio coletivo',3:'Agropecuário',4:'Ensino',5:'Saúde',6:'Comércio, serviços e outras finalidades',7:'Em construção/reforma',8:'Religioso'};
+function cnefeCard(en){
+  if(!en) return card('Endereços (CNEFE)','','<span class="mut">CNEFE não carregado: rode python -m app.cnefe</span>',{span2:true});
+  const c=en.contagens, b=en.baseline_manaus, tot=Math.max(1,c.total), btot=Math.max(1,b.total), bpe=b.por_especie;
+  const bairros=Object.entries(c.por_especie).map(([k,v])=>({l:SEG_ESP[k],v:100*v/tot,fmt:P(100*v/tot),tip:`${SEG_ESP[k]}: ${N(v)} endereços (${P(100*v/tot)} da área)`}));
+  const BAIXA=['Outros (não classificado)','Sem identificação'];  // pouco informativos: vão para o fim
+  const seg=Object.entries(c.segmentos).sort((x,y)=>(BAIXA.includes(x[0])-BAIXA.includes(y[0]))||y[1]-x[1]);
+  const anel=en.por_anel?`<div class="sub" style="margin-top:10px">A partir do empreendimento (acumulado, linha reta)</div><table><tr><th>Raio</th><th>Domicílios</th><th>Comércio/serv.</th><th>Ensino</th><th>Saúde</th><th>Relig.</th></tr>${en.por_anel.map(a=>`<tr><td>${N(a.raio_m)} m</td><td>${N(a.domicilios)}</td><td>${N(a.comercio_servicos)}</td><td>${N(a.ensino)}</td><td>${N(a.saude)}</td><td>${N(a.religioso)}</td></tr>`).join('')}</table>`:'';
+  return `<div class="span2 mut" style="margin-top:2px">Endereços (CNEFE · Censo 2022)</div>`+
+    tile('Endereços na área',N(c.total),`${N(c.por_especie[1]+c.por_especie[2])} domicílios`,{t:'Só coordenadas de endereço (níveis 1–3 do CNEFE)'})+
+    tile('Comércio, serviços e outras',N(c.por_especie[6]),`${N(en.indices.comercio_por_mil_dom)} por mil domicílios · Manaus ${N(b.indices.comercio_por_mil_dom)}`,{t:'Inclui indústria e serviços; o IBGE não separa comércio de serviço'})+
+    card('Endereços por tipo','% dos endereços da área · Manaus: '+Object.entries(bpe).filter(([k,v])=>v>btot*0.002).map(([k,v])=>SEG_ESP[k].split(',')[0]+' '+P(100*v/btot)).join(' · '),
+      bars(bairros.filter(x=>x.v>0),100)+
+      asTable(['Tipo','Na área','%','% de Manaus'],Object.entries(c.por_especie).map(([k,v])=>[SEG_ESP[k],N(v),P(100*v/tot),P(100*bpe[k]/btot)])),{span2:true})+
+    card('Comércio e serviços por segmento','Classificação indicativa por palavra-chave no nome (não validada)',
+      seg.length?bars(seg.map(([k,v])=>({l:k,v,fmt:N(v),tip:`${k}: ${N(v)}`}))):'<span class="mut">Nenhum.</span>'+
+      `<div class="mut" style="margin-top:6px">Moradia: ${Object.entries(c.moradia).map(([k,v])=>k+' '+N(v)).join(' · ')}</div>`,{span2:true})+
+    card('Interpretação','Regras simples comparando a área com a média de Manaus (mesmo dado)',
+      `<ul class="interp">${en.interpretacao.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`+anel+
+      `<details><summary>Limitações do CNEFE</summary><ul class="interp">${en.avisos.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></details>`,{span2:true});
+}
+
+function renderDash(s,a,en){
+  const p=s.populacao_selecao, r=p.renda_responsavel, dens=s.area_selecao_km2?Math.round(p.estimativa/s.area_selecao_km2):null;
+  const tiles=
+    tile('População estimada',N(p.estimativa),`mínimo exato ${N(p.minimo_exato)} · Censo 2022`,{hero:true,span2:true,t:'Setores inteiros dentro da área = contagem exata; setores cortados pela borda rateados por área.'})+
+    tile('Área',N(s.area_selecao_km2)+' km²',`${s.bairros.length} bairros intersectados`)+
+    tile('Densidade',N(dens)+' hab/km²','população estimada ÷ área')+
+    tile('Renda média do responsável',r.media_aprox_rs==null?'—':'R$ '+N(Math.round(r.media_aprox_rs)),`aprox. · ${r.setores_sem_renda} setores sem dado · não é renda per capita`,{span2:true,t:'Média dos setores ponderada por responsáveis e área; a mediana não é agregável.'});
+
+  const fx=Object.entries(p.faixas_etarias), fmax=Math.max(...fx.map(([,v])=>v));
+  const idade=card('Faixa etária','Pessoas por faixa (estimativa) · '+`mulheres ${N(p.sexo.mulheres)} · homens ${N(p.sexo.homens)}`,
+    bars(fx.map(([k,v])=>({l:k+' anos',v,fmt:N(v)+' ('+(100*v/p.estimativa).toFixed(1).replace('.',',')+'%)',tip:`${k} anos: ${N(v)} pessoas`})),fmax)+
+    asTable(['Faixa','Pessoas','%'],fx.map(([k,v])=>[k,N(v),(100*v/p.estimativa).toFixed(1)+'%'])),{span2:true});
+
+  const san=card('Saneamento','% dos domicílios ocupados',
+    Object.entries(p.saneamento).map(([k,v])=>meter(NOMES_SAN[k],v.pct,`dados em ${P(v.cobertura_dados_pct)} dos domicílios`,v.descricao)).join('')+
+    asTable(['Indicador','%','Cobertura'],Object.entries(p.saneamento).map(([k,v])=>[NOMES_SAN[k],P(v.pct),P(v.cobertura_dados_pct)])));
+  const inf=card('Infraestrutura do entorno','% dos domicílios em face de quadra com…',
+    Object.entries(NOMES_INF).map(([k,nm])=>{const v=p.infraestrutura[k]; return meter(nm,v.pct,'',v.descricao)}).join('')+
+    asTable(['Indicador','%'],Object.entries(NOMES_INF).map(([k,nm])=>[nm,P(p.infraestrutura[k].pct)])));
+
+  const top=[...s.bairros].filter(b=>b.populacao_bairro!=null).sort((x,y)=>y.populacao_bairro-x.populacao_bairro).slice(0,8);
+  const bairros=card('Bairros na área','Maiores por população total do bairro (Censo 2022)',
+    bars(top.map(b=>({l:b.bairro,v:b.populacao_bairro,fmt:N(b.populacao_bairro),tip:`${b.bairro}: ${N(b.populacao_bairro)} hab · ${b.pct_do_bairro}% do bairro na área · renda mediana R$ ${N(b.bairro_renda_mediana)}`})))+
+    asTable(['Bairro','% na área','Pop.','Renda med. R$','Água %','Esgoto %','Lixo %'],s.bairros.map(b=>[b.bairro,b.pct_do_bairro,N(b.populacao_bairro),N(b.bairro_renda_mediana),b.agua_pct??'—',b.esgoto_pct??'—',b.lixo_pct??'—'])),{span2:true});
+
+  const m=v=>v?`${N(v.distancia_m)} m`:'—', pr=a.mais_proximo_do_centro, i=a.infra_na_area;
+  const acess=
+    tile('Via arterial mais próxima',m(a.via_arterial_mais_proxima),esc(a.via_arterial_mais_proxima?.nome||'')+' · linha reta do centro',{t:a.aviso})+
+    tile('Pontos de ônibus na área',N(i.ponto_onibus||0),`mais próximo: ${m(pr.ponto_onibus)} · terminal: ${m(pr.terminal_onibus)}`,{t:a.aviso})+
+    tile('Malha viária',N(a.densidade_vias_km_por_km2)+' km/km²',Object.entries(a.vias_km).map(([k,v])=>k+' '+N(v)+' km').join(' · ')+(a.vias_locais_km!=null?` · locais ${N(a.vias_locais_km)} km`:''),{t:'Vias arteriais e coletoras do OSM'+(a.vias_locais_km!=null?' + ruas locais':'')})+
+    tile('Aeroporto · porto',m(pr.aeroporto),`porto/terminal fluvial: ${m(pr.porto)}`,{t:'Distâncias em linha reta, não tempo de deslocamento'});
+  const ed=a.edificacoes_nao_residenciais;
+  const edif=card('Galpões, comerciais e industriais mapeados','Edificações e terrenos no OSM · não são anúncios, sem preço',
+    ed.length?bars(ed.map(e=>({l:e.tipo.replace('terreno_','terreno ').replace('_',' '),v:e.quantidade,fmt:N(e.quantidade),tip:`${e.tipo}: ${N(e.quantidade)} · ${N(e.area_total_m2)} m²`})))+
+      asTable(['Tipo','Qtd','Área total m²'],ed.map(e=>[e.tipo,e.quantidade,N(e.area_total_m2)])):'<span class="mut">Nenhuma mapeada na área.</span>',{span2:true});
+
+  $('dash').innerHTML=`<h2>Painel de análise</h2><div class="grid">${metaCard()}${tiles}${cnefeCard(en)}${idade}${san}${inf}${bairros}<div class="span2 mut" style="margin-top:2px">Acessibilidade</div>${acess}${edif}<div id="concCard" class="span2"></div></div>
+   <p class="mut">${esc(a.aviso)} · ${esc(a.fonte)}</p>`;
+}
+
+function renderConc(c){
+  const por=c.por_bairro.filter(b=>b.estabelecimentos>0).slice(0,8);
+  $('concCard').innerHTML=card('Concorrência · '+c.rotulo,'Estabelecimentos mapeados no OSM na área',
+    `<div class="grid" style="margin-top:0">${tile('Estabelecimentos',N(c.estabelecimentos_na_area),`${N(c.por_km2)}/km²`)}${tile('Habitantes por estabelecimento',N(c.hab_por_estabelecimento),`${N(c.estab_por_10mil_hab)} por 10 mil hab.`)}
+     ${tile('Do centro ao mais próximo',N(c.dist_centro_ao_mais_proximo_m)+' m','linha reta')}${tile('Vizinho mais próximo (médio)',N(c.vizinho_mais_proximo_medio_m)+' m','baixo = aglomeração')}</div>`+
+    (por.length?`<div class="sub" style="margin-top:10px">Estabelecimentos por bairro</div>`+bars(por.map(b=>({l:b.bairro,v:b.estabelecimentos,fmt:N(b.estabelecimentos),tip:`${b.bairro}: ${b.estabelecimentos} · ${N(b.hab_por_estab)} hab/estab.`}))):'')+
+    (c.do_ponto?`<div class="sub" style="margin-top:10px">A partir do empreendimento (acumulado, linha reta)</div>`+
+      bars(c.do_ponto.aneis.map(x=>({l:'até '+N(x.raio_m)+' m',v:x.estabelecimentos,fmt:N(x.estabelecimentos)})))+
+      `<div class="sub" style="margin-top:6px">Mais próximos: ${c.do_ponto.mais_proximos.map(m=>esc(m.nome||'(sem nome no OSM)')+' · '+N(m.distancia_m)+' m').join(' | ')}</div>`:'')+
+    asTable(['Bairro','Estab.','Pop.','Hab/estab.'],c.por_bairro.map(b=>[b.bairro,b.estabelecimentos,N(b.populacao),N(b.hab_por_estab)]))+
+    `<div class="warn">⚠ ${esc(c.aviso)} ${c.bairros_sem_registro_osm.length} bairro(s) populoso(s) sem registro no OSM — provável falha de mapeamento, não lacuna de mercado. ${esc(c.fonte)}</div>`,{span2:true});
+}
+
+/* ---------- mapa ---------- */
+const map = new maplibregl.Map({
+  container:'map', center:[-60.02,-3.1], zoom:10.5,
+  style:{version:8, sources:{osm:{type:'raster',tileSize:256,tiles:['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+    attribution:'© OpenStreetMap contributors'}}, layers:[{id:'osm',type:'raster',source:'osm'}]}
+});
+map.addControl(new maplibregl.NavigationControl()); map.addControl(new maplibregl.ScaleControl());
+let pts=[], drawing=false, placing=false, polygon=null, marker=null, meta={tipo:'poligono'};
+const ocupado=()=>drawing||placing;
+
+map.on('load', () => {
+  map.addSource('bairros',{type:'geojson',data:'/api/bairros'});
+  map.addLayer({id:'b-fill',type:'fill',source:'bairros',paint:{'fill-color':'#1f6feb','fill-opacity':0.08}});
+  map.addLayer({id:'b-line',type:'line',source:'bairros',paint:{'line-color':'#1f6feb','line-width':1}});
+  map.addSource('sel',{type:'geojson',data:fc([])});
+  map.addLayer({id:'sel-fill',type:'fill',source:'sel',filter:['==',['geometry-type'],'Polygon'],paint:{'fill-color':'#f59e0b','fill-opacity':0.3}});
+  map.addLayer({id:'sel-line',type:'line',source:'sel',paint:{'line-color':'#d97706','line-width':2}});
+  map.addLayer({id:'sel-pt',type:'circle',source:'sel',filter:['==',['geometry-type'],'Point'],paint:{'circle-radius':4,'circle-color':'#d97706'}});
+  map.addSource('c-vias',{type:'geojson',data:fc([])});
+  map.addLayer({id:'c-vias',type:'line',source:'c-vias',layout:{visibility:'none'},paint:{'line-color':['match',['get','classe'],'motorway','#b91c1c','trunk','#b91c1c','primary','#ea580c','secondary','#ca8a04','#6b7280'],'line-width':2}});
+  map.addSource('c-infra',{type:'geojson',data:fc([])});
+  map.addLayer({id:'c-infra',type:'circle',source:'c-infra',layout:{visibility:'none'},paint:{'circle-radius':4,'circle-color':['match',['get','tipo'],'ponto_onibus','#16a34a','aeroporto','#7c3aed','porto','#0284c7','terminal_fluvial','#0284c7','#111827'],'circle-stroke-width':1,'circle-stroke-color':'#fff'}});
+  map.addSource('c-edificacoes',{type:'geojson',data:fc([])});
+  map.addLayer({id:'c-edificacoes',type:'fill',source:'c-edificacoes',layout:{visibility:'none'},paint:{'fill-color':'#9333ea','fill-opacity':0.45,'fill-outline-color':'#6b21a8'}});
+  map.on('click','c-infra',e=>{ if(!ocupado()) new maplibregl.Popup().setLngLat(e.lngLat).setHTML(esc(e.features[0].properties.tipo)+'<br>'+esc(e.features[0].properties.nome||'(sem nome no OSM)')).addTo(map) });
+  map.on('click','c-edificacoes',e=>{ if(!ocupado()) new maplibregl.Popup().setLngLat(e.lngLat).setHTML(esc(e.features[0].properties.tipo)+' · '+Number(e.features[0].properties.area_m2).toLocaleString('pt-BR')+' m²<br>'+esc(e.features[0].properties.nome||'(sem nome no OSM)')+'<br><span style="color:#6b7280">Mapeado no OSM; não é anúncio</span>').addTo(map) });
+  document.querySelectorAll('[data-camada]').forEach(cb=>cb.onchange=async()=>{
+    const n=cb.dataset.camada, src=map.getSource('c-'+n);
+    if(cb.checked && !src._loaded){ src.setData(await (await fetch('/api/camadas/'+n)).json()); src._loaded=true }
+    map.setLayoutProperty('c-'+n,'visibility',cb.checked?'visible':'none');
+  });
+  // endereços CNEFE por grupo: 3 cores (slots 1–3 da paleta, validados para todos os pares); sem texto de endereço
+  map.addSource('cnefe',{type:'geojson',data:fc([])});
+  map.addLayer({id:'cnefe-pt',type:'circle',source:'cnefe',paint:{'circle-radius':['interpolate',['linear'],['zoom'],11,1.2,15,3.2,18,5],'circle-opacity':0.8,
+    'circle-color':['match',['get','g'],'residencial','#2a78d6','comercio_servicos','#eb6834','institucional','#1baf7a','#6b7280']}},'sel-line');
+  // anéis de distância do empreendimento
+  map.addSource('aneis',{type:'geojson',data:fc([])});
+  map.addLayer({id:'aneis-line',type:'line',source:'aneis',paint:{'line-color':'#b45309','line-width':1.4,'line-dasharray':[3,2]}});
+  map.addSource('poi',{type:'geojson',data:fc([])});
+  map.addLayer({id:'poi-pt',type:'circle',source:'poi',paint:{'circle-radius':5,'circle-color':'#dc2626','circle-stroke-width':1,'circle-stroke-color':'#fff'}});
+  map.on('click','poi-pt',e=>new maplibregl.Popup().setLngLat(e.lngLat).setText(e.features[0].properties.nome||'(sem nome no OSM)').addTo(map));
+  map.on('click','b-fill',e=>{ if(ocupado()) return; const q=e.features[0].properties;
+    new maplibregl.Popup().setLngLat(e.lngLat).setHTML('<b>'+esc(q.NM_BAIRRO)+'</b><br>Subdistrito: '+esc(q.NM_SUBDIST)+'<br>Pop.: '+N(q.pessoas)+' · renda mediana R$ '+N(q.bairro_renda_mediana)+'<br>Fonte: IBGE Censo 2022').addTo(map)});
+  map.on('click',e=>{
+    if(placing){ placing=false; map.getCanvas().style.cursor='';
+      if(!marker){ marker=new maplibregl.Marker({draggable:true,color:'#dc2626'}); marker.on('dragend',rodarPonto) }
+      marker.setLngLat(e.lngLat).addTo(map); rodarPonto(); return }
+    if(!drawing) return; pts.push([e.lngLat.lng,e.lngLat.lat]); render(); $('finish').disabled = pts.length<3 });
+  // filtro de bairros: contorno verde = atende aos filtros; preenchimento âmbar = selecionado
+  map.addLayer({id:'b-match',type:'line',source:'bairros',filter:['==',['get','CD_BAIRRO'],''],paint:{'line-color':'#16a34a','line-width':3}},'sel-fill');
+  map.addLayer({id:'b-sel',type:'fill',source:'bairros',filter:['==',['get','CD_BAIRRO'],''],paint:{'fill-color':'#f59e0b','fill-opacity':0.35}},'sel-fill');
+  mapaFb();
+});
+
+function render(){
+  const f=pts.map(p=>({type:'Feature',geometry:{type:'Point',coordinates:p},properties:{}}));
+  if(pts.length>1) f.push({type:'Feature',geometry:{type:'LineString',coordinates:pts},properties:{}});
+  if(polygon) f.push({type:'Feature',geometry:polygon,properties:{}});
+  map.getSource('sel').setData(fc(f));
+}
+const post=(u,g)=>fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({geometry:g})});
+function reset(){ pts=[]; polygon=null; drawing=false; placing=false; meta={tipo:'poligono'}; if(marker){ marker.remove(); marker=null } map.getCanvas().style.cursor=''; $('dash').innerHTML=''; $('pdf').disabled=true; $('conc').disabled=true; $('finish').disabled=true; map.getSource('poi').setData(fc([])); render() }
+$('draw').onclick=()=>{ reset(); drawing=true; map.getCanvas().style.cursor='crosshair' };
+$('clear').onclick=reset;
+async function analisar(geom,m){
+  polygon=geom; meta=m; pts=[]; drawing=false; render();
+  $('dash').innerHTML='<p class="mut">Calculando…</p>'; $('dash').scrollIntoView({behavior:'smooth',block:'nearest'});
+  const qEnd=m.tipo==='ponto'?`?lon=${m.lon}&lat=${m.lat}&raio_m=${m.raio_m}`:'';
+  const [rs,ra,re]=await Promise.all([post('/api/area/summary',geom),post('/api/acessibilidade',geom),post('/api/enderecos'+qEnd,geom)]);
+  if(!rs.ok||!ra.ok){ $('dash').textContent='Erro: '+(await (rs.ok?ra:rs).text()); return }
+  renderDash(await rs.json(),await ra.json(),re.ok?await re.json():null);
+  $('pdf').disabled=false; $('conc').disabled=false; map.getSource('poi').setData(fc([]));
+  aneisMapa(); atualizaCnefe();
+}
+/* área de influência: círculo + anéis; botão liga/desliga */
+let bufVisivel=true;
+function aneisMapa(){
+  const ponto=meta.tipo==='ponto';
+  map.getSource('aneis').setData(fc(ponto?(meta.aneis||[]).map(a=>({type:'Feature',properties:{raio_m:a.raio_m},geometry:{type:'LineString',coordinates:a.geometry.coordinates[0]}})):[]));
+  $('bufBtn').disabled=!ponto; aplicaBuf();
+}
+function aplicaBuf(){
+  ['sel-fill','sel-line','aneis-line'].forEach(l=>map.setLayoutProperty(l,'visibility',(meta.tipo==='ponto'&&!bufVisivel)?'none':'visible'));
+  $('bufBtn').textContent=bufVisivel?'Ocultar área de influência':'Mostrar área de influência';
+}
+$('bufBtn').onclick=()=>{ bufVisivel=!bufVisivel; aplicaBuf() };
+/* endereços CNEFE no mapa (coordenadas apenas; limite de pontos no servidor) */
+async function atualizaCnefe(){
+  const src=map.getSource('cnefe'); if(!$('cnefeCb').checked||!polygon){ src.setData(fc([])); return }
+  const r=await post('/api/enderecos/pontos',polygon); if(!r.ok){ $('cnefeCb').checked=false; return }
+  const g=await r.json(); src.setData(g);
+  $('cnefeNote').textContent=g.truncado?`Área grande: exibindo ${N(g.exibidos)} de ${N(g.total_na_area)} endereços; reduza a área para ver todos.`:`${N(g.exibidos)} endereços exibidos (residencial, comércio/serviços e institucional).`;
+}
+$('cnefeCb').onchange=atualizaCnefe;
+$('finish').onclick=()=>{
+  map.getCanvas().style.cursor=''; $('finish').disabled=true;
+  analisar({type:'Polygon',coordinates:[[...pts,pts[0]]]},{tipo:'poligono'});
+};
+/* ponto do empreendimento */
+async function rodarPonto(){
+  const ll=marker.getLngLat();
+  const r=await fetch('/api/empreendimento',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lon:ll.lng,lat:ll.lat,raio_m:+$('empRaio').value})});
+  if(!r.ok){ $('dash').textContent='Erro: '+(await r.text()); return }
+  const e=await r.json();
+  map.fitBounds(bbox([e.geometry]),{padding:{top:40,bottom:40,left:40,right:40},maxZoom:16,duration:500});
+  await analisar(e.geometry,{tipo:'ponto',nome:$('empNome').value.trim()||'Meu empreendimento',lon:ll.lng,lat:ll.lat,raio_m:e.raio_m,bairro:e.bairro,aneis:e.aneis});
+}
+$('empBtn').onclick=()=>{ reset(); placing=true; map.getCanvas().style.cursor='crosshair' };
+$('empRaio').onchange=$('empNome').onchange=()=>{ if(marker) rodarPonto() };
+/* filtro de bairros */
+const norm=s=>String(s).normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+let bairrosData=[]; const selecionados=new Set();
+const filtrados=()=>{ const q=norm($('fbBusca').value), rm=+$('fbRenda').value||0, pm=+$('fbPop').value||0;
+  return bairrosData.filter(b=>norm(b.nome).includes(q)&&(!rm||(b.renda!=null&&b.renda>=rm))&&(!pm||(b.pop!=null&&b.pop>=pm))) };
+const fbAtivo=()=>$('fbBusca').value.trim()||$('fbRenda').value||$('fbPop').value;
+function mapaFb(){
+  if(!map.getLayer('b-sel')) return;
+  const inn=l=>l.length?['in',['get','CD_BAIRRO'],['literal',l]]:['==',['get','CD_BAIRRO'],''];
+  map.setFilter('b-sel',inn([...selecionados])); map.setFilter('b-match',inn(fbAtivo()?filtrados().map(b=>b.cd):[]));
+}
+function renderFb(){
+  const f=filtrados();
+  $('fbList').innerHTML=f.map(b=>`<label class="fb"><input type="checkbox" data-cd="${b.cd}" ${selecionados.has(b.cd)?'checked':''}> ${esc(b.nome)}<span class="mut">${N(b.pop)} hab · ${b.renda==null?'s/d':'R$ '+N(b.renda)}</span></label>`).join('')||'<div class="fb mut">Nenhum bairro atende aos filtros.</div>';
+  $('fbList').querySelectorAll('input').forEach(i=>i.onchange=()=>{ i.checked?selecionados.add(i.dataset.cd):selecionados.delete(i.dataset.cd); infoFb() });
+  infoFb();
+}
+function infoFb(){
+  $('fbInfo').textContent=`${filtrados().length} de ${bairrosData.length} bairros nos filtros · ${selecionados.size} selecionado(s)`+(+$('fbRenda').value?' · bairros sem dado de renda ficam fora do filtro de renda':'');
+  $('fbAnalisar').disabled=!selecionados.size; mapaFb();
+}
+const bbox=gs=>{ let a=[1e9,1e9,-1e9,-1e9]; const w=c=>typeof c[0]==='number'?(a=[Math.min(a[0],c[0]),Math.min(a[1],c[1]),Math.max(a[2],c[0]),Math.max(a[3],c[1])]):c.forEach(w); gs.forEach(g=>w(g.coordinates)); return [[a[0],a[1]],[a[2],a[3]]] };
+['fbBusca','fbRenda','fbPop'].forEach(id=>$(id).oninput=renderFb);
+$('fbTodos').onclick=()=>{ filtrados().forEach(b=>selecionados.add(b.cd)); renderFb() };
+$('fbLimpar').onclick=()=>{ selecionados.clear(); renderFb() };
+$('fbAnalisar').onclick=async()=>{
+  const r=await fetch('/api/bairros/uniao',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({codigos:[...selecionados]})});
+  if(!r.ok){ $('dash').textContent='Erro: '+(await r.text()); return }
+  const u=await r.json(); reset();
+  map.fitBounds(bbox([u.geometry]),{padding:40,maxZoom:14});
+  await analisar(u.geometry,{tipo:'bairros',bairros:u.bairros});
+};
+fetch('/api/bairros').then(r=>r.json()).then(g=>{
+  bairrosData=g.features.map(f=>({cd:f.properties.CD_BAIRRO,nome:f.properties.NM_BAIRRO,pop:f.properties.pessoas,renda:f.properties.bairro_renda_mediana,geom:f.geometry}))
+    .sort((a,b)=>a.nome.localeCompare(b.nome,'pt')); renderFb() });
+$('conc').onclick=async()=>{
+  const r=await fetch('/api/concorrencia?categoria='+$('cat').value+pq(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({geometry:polygon})});
+  if(!r.ok){ $('concCard').textContent='Erro: '+(await r.text()); return }
+  const c=await r.json();
+  map.getSource('poi').setData(fc(c.pontos.map(p=>({type:'Feature',properties:{nome:p.nome||''},geometry:{type:'Point',coordinates:[p.lon,p.lat]}}))));
+  renderConc(c); $('concCard').scrollIntoView({behavior:'smooth',block:'nearest'});
+};
+$('pdf').onclick=async()=>{
+  const emp=meta.tipo==='ponto'?`&raio_m=${meta.raio_m}&nome=${encodeURIComponent(meta.nome)}`:'';
+  const r=await fetch('/api/report/pdf?categoria='+$('cat').value+pq()+emp,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({geometry:polygon})});
+  if(!r.ok){ alert('Falha ao gerar PDF'); return }
+  const a=document.createElement('a'); a.href=URL.createObjectURL(await r.blob()); a.download='diagnostico.pdf'; a.click();
+};
+function loadImv(){
+  fetch(`/api/imoveis/indicadores?finalidade=${$('fin').value}&incluir_demo=${$('demo').checked}`).then(r=>r.json()).then(d=>{
+    if(!d.total_anuncios){ $('imv').textContent='Sem anúncios importados.'; return }
+    $('imv').innerHTML=`<b>${esc(d.unidade)}</b> · ${d.total_anuncios} anúncios${d.demo_incluido?' <b style="color:#dc2626">(inclui DEMO FICTÍCIO)</b>':''}<br>${esc(d.aviso)}
+     <table><tr><th>Bairro</th><th>n</th><th>mediana</th><th>P25–P75</th></tr>${d.bairros.slice(0,15).map(b=>`<tr><td>${esc(b.bairro)}</td><td>${b.anuncios}</td><td>${b.mediana_m2==null?'—':b.mediana_m2.toLocaleString('pt-BR')}</td><td>${b.mediana_m2==null?'':b.p25_m2.toLocaleString('pt-BR')+'–'+b.p75_m2.toLocaleString('pt-BR')}</td></tr>`).join('')}</table>`});
+}
+$('fin').onchange=$('demo').onchange=loadImv; loadImv();
+fetch('/api/categorias').then(r=>r.json()).then(c=>{ $('cat').innerHTML=Object.entries(c).map(([k,v])=>`<option value="${k}">${esc(v)}</option>`).join('') });
+fetch('/api/indicadores').then(r=>r.json()).then(d=>{
+  const p=d.ibge.populacao_manaus;
+  $('ctx').innerHTML=`População de Manaus: <b>${N(p.valor)}</b> (${esc(p.referencia)}, escala ${esc(p.escala)})<br>`+
+   Object.values(d.bcb).map(s=>{const l=s.pontos[s.pontos.length-1];return `${esc(s.nome)}: <b>${esc(l.valor)}</b> (${esc(l.data)}) — ${esc(s.escala)}`}).join('<br>')+
+   `<br>Coletado em ${esc(d.fetched_at)}`});
+fetch('/api/fontes').then(r=>r.json()).then(l=>{ $('src').innerHTML=l.map(s=>`<div style="margin:4px 0"><span class="st ${s.estado==='funcionando'?'ok':''}">${esc(s.estado)}</span> ${esc(s.nome)}</div>`).join('') });
+</script>
+</body>
+</html>

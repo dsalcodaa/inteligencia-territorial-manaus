@@ -1,0 +1,164 @@
+id_anuncio,finalidade,tipo,preco,area_m2,quartos,vagas,bairro,lat,lon
+DEMO-0000,venda,casa,971886.01,210.0,4.0,0.0,Cidade Nova,-3.03094,-59.982673
+DEMO-0001,aluguel,comercial,5119.48,201.0,3.0,0.0,Monte das Oliveiras,-3.004963,-59.996236
+DEMO-0002,venda,casa,1608381.83,243.0,4.0,2.0,Redenção,-3.054968,-60.043618
+DEMO-0003,aluguel,apartamento,8231.49,235.0,2.0,2.0,Nova Cidade,-2.998176,-59.979315
+DEMO-0004,venda,comercial,1574127.27,253.0,4.0,3.0,Cidade Nova,-3.029699,-59.981839
+DEMO-0005,aluguel,apartamento,5031.45,160.0,4.0,2.0,Parque 10 de Novembro,-3.082373,-60.01439
+DEMO-0006,venda,comercial,920660.32,121.0,1.0,1.0,Tarumã,-3.023973,-60.051755
+DEMO-0007,aluguel,comercial,5567.15,164.0,1.0,3.0,Coroado,-3.092004,-59.967939
+DEMO-0008,venda,comercial,1542689.56,223.0,2.0,3.0,Aleixo,-3.087757,-59.993126
+DEMO-0009,aluguel,apartamento,6364.56,223.0,4.0,3.0,Japiim,-3.113947,-59.982138
+DEMO-0010,venda,casa,1192852.47,211.0,3.0,0.0,Gilberto Mestrinho,-3.070004,-59.92713
+DEMO-0011,aluguel,casa,2660.28,183.0,1.0,3.0,Coroado,-3.091337,-59.967918
+DEMO-0012,venda,casa,1292268.08,163.0,1.0,1.0,Cidade Nova,-3.029536,-59.982117
+DEMO-0013,aluguel,comercial,4884.9,258.0,4.0,0.0,Tarumã-Açu,-2.966164,-60.063122
+DEMO-0014,venda,casa,1060224.87,185.0,4.0,3.0,Tarumã-Açu,-2.966567,-60.062965
+DEMO-0015,aluguel,apartamento,2760.51,110.0,1.0,0.0,São Jorge,-3.104375,-60.036788
+DEMO-0016,venda,comercial,489186.71,75.0,1.0,1.0,Monte das Oliveiras,-3.004203,-59.996725
+DEMO-0017,aluguel,apartamento,2517.33,92.0,3.0,1.0,Monte das Oliveiras,-3.00526,-59.997337
+DEMO-0018,venda,casa,1812118.0,251.0,3.0,1.0,Zumbi dos Palmares,-3.077089,-59.946483
+DEMO-0019,aluguel,comercial,1991.51,97.0,3.0,1.0,Gilberto Mestrinho,-3.071226,-59.926866
+DEMO-0020,venda,comercial,474715.25,140.0,2.0,3.0,Coroado,-3.091715,-59.968934
+DEMO-0021,aluguel,comercial,1045.62,44.0,3.0,1.0,Lago Azul,-2.948777,-59.99531
+DEMO-0022,venda,comercial,847702.22,182.0,2.0,3.0,Jorge Teixeira,-3.029808,-59.925907
+DEMO-0023,aluguel,apartamento,7345.69,185.0,1.0,2.0,Armando Mendes,-3.089293,-59.940385
+DEMO-0024,venda,casa,671668.14,167.0,3.0,1.0,Alvorada,-3.074657,-60.043142
+DEMO-0025,aluguel,comercial,4928.11,142.0,2.0,1.0,Centro,-3.127849,-60.01831
+DEMO-0026,venda,comercial,439282.25,165.0,2.0,3.0,Redenção,-3.054746,-60.044109
+DEMO-0027,aluguel,apartamento,3725.84,102.0,1.0,3.0,Zumbi dos Palmares,-3.077818,-59.946823
+DEMO-0028,venda,apartamento,354352.68,63.0,2.0,0.0,Zumbi dos Palmares,-3.076855,-59.94624
+DEMO-0029,aluguel,apartamento,2640.62,110.0,4.0,0.0,São Jorge,-3.104259,-60.037394
+DEMO-0030,venda,casa,607601.98,121.0,4.0,3.0,Flores,-3.063442,-60.014782
+DEMO-0031,aluguel,casa,4870.61,176.0,4.0,3.0,Zumbi dos Palmares,-3.077516,-59.946533
+DEMO-0032,venda,apartamento,566961.17,135.0,4.0,0.0,Japiim,-3.114183,-59.981469
+DEMO-0033,aluguel,casa,2499.12,65.0,1.0,3.0,São José Operário,-3.065641,-59.951759
+DEMO-0034,venda,casa,555861.65,60.0,2.0,0.0,Tarumã,-3.024237,-60.050517
+DEMO-0035,aluguel,comercial,1434.45,54.0,3.0,0.0,Santa Etelvina,-2.987017,-60.010166
+DEMO-0036,venda,apartamento,827062.73,108.0,4.0,1.0,Gilberto Mestrinho,-3.070833,-59.926528
+DEMO-0037,aluguel,apartamento,2240.52,78.0,1.0,2.0,Dom Pedro I,-3.088522,-60.041141
+DEMO-0038,venda,casa,826778.21,192.0,1.0,3.0,Santa Etelvina,-2.98729,-60.010276
+DEMO-0039,aluguel,apartamento,5331.99,221.0,4.0,1.0,Lírio do Vale,-3.073512,-60.068863
+DEMO-0040,venda,comercial,1555472.44,250.0,4.0,1.0,Zumbi dos Palmares,-3.077618,-59.946217
+DEMO-0041,aluguel,apartamento,6434.16,224.0,3.0,1.0,Centro,-3.128047,-60.017579
+DEMO-0042,venda,casa,1465763.94,245.0,2.0,2.0,Redenção,-3.054381,-60.0432
+DEMO-0043,aluguel,comercial,2344.98,103.0,2.0,0.0,Lírio do Vale,-3.074095,-60.069663
+DEMO-0044,venda,apartamento,2410371.37,230.0,2.0,0.0,Santa Etelvina,-2.987186,-60.00966
+DEMO-0045,aluguel,comercial,4082.17,251.0,3.0,0.0,Colônia Terra Nova,-3.011488,-60.017097
+DEMO-0046,venda,comercial,2568677.48,219.0,1.0,1.0,Colônia Antônio Aleixo,-3.100613,-59.901347
+DEMO-0047,aluguel,apartamento,2864.16,110.0,4.0,3.0,Novo Aleixo,-3.050817,-59.967788
+DEMO-0048,venda,casa,293838.69,73.0,1.0,2.0,Lago Azul,-2.948672,-59.996388
+DEMO-0049,aluguel,casa,4837.63,134.0,4.0,1.0,Armando Mendes,-3.088798,-59.939895
+DEMO-0050,venda,casa,1206677.37,232.0,1.0,1.0,São José Operário,-3.064028,-59.951266
+DEMO-0051,aluguel,casa,5626.71,181.0,2.0,0.0,Redenção,-3.055095,-60.043207
+DEMO-0052,venda,comercial,375577.16,51.0,1.0,3.0,Jorge Teixeira,-3.030261,-59.92688
+DEMO-0053,aluguel,comercial,3312.07,110.0,3.0,2.0,Colônia Antônio Aleixo,-3.100929,-59.902263
+DEMO-0054,venda,comercial,1063614.17,157.0,4.0,3.0,Colônia Antônio Aleixo,-3.100902,-59.902123
+DEMO-0055,aluguel,apartamento,2352.32,94.0,2.0,1.0,Nova Cidade,-2.99792,-59.978111
+DEMO-0056,venda,comercial,966586.85,120.0,2.0,1.0,Zumbi dos Palmares,-3.078265,-59.946473
+DEMO-0057,aluguel,comercial,6989.51,214.0,4.0,1.0,Petrópolis,-3.108156,-59.992757
+DEMO-0058,venda,apartamento,1647582.42,226.0,4.0,2.0,Mauazinho,-3.116343,-59.940204
+DEMO-0059,aluguel,comercial,1448.74,78.0,3.0,2.0,Flores,-3.064003,-60.014389
+DEMO-0060,venda,casa,586629.79,60.0,1.0,2.0,Cidade de Deus,-3.022,-59.947485
+DEMO-0061,aluguel,comercial,3086.92,77.0,2.0,3.0,Santa Etelvina,-2.988097,-60.010119
+DEMO-0062,venda,apartamento,409468.21,95.0,1.0,2.0,Cidade Nova,-3.030291,-59.981444
+DEMO-0063,aluguel,casa,396.46,41.0,3.0,2.0,Novo Aleixo,-3.050998,-59.967393
+DEMO-0064,venda,apartamento,412353.32,148.0,4.0,3.0,Dom Pedro I,-3.088288,-60.040378
+DEMO-0065,aluguel,casa,5111.58,147.0,4.0,3.0,Jorge Teixeira,-3.030081,-59.92579
+DEMO-0066,venda,casa,1640495.42,237.0,2.0,3.0,São José Operário,-3.065509,-59.952389
+DEMO-0067,aluguel,apartamento,9035.65,251.0,3.0,1.0,Colônia Terra Nova,-3.010907,-60.015808
+DEMO-0068,venda,casa,808211.94,161.0,4.0,2.0,Redenção,-3.054533,-60.043138
+DEMO-0069,aluguel,comercial,1424.12,41.0,2.0,0.0,Compensa,-3.103299,-60.061576
+DEMO-0070,venda,apartamento,619585.42,66.0,3.0,2.0,Jorge Teixeira,-3.029833,-59.927126
+DEMO-0071,aluguel,apartamento,2035.43,134.0,2.0,1.0,Centro,-3.129086,-60.018255
+DEMO-0072,venda,casa,834931.52,211.0,4.0,0.0,São José Operário,-3.065671,-59.952083
+DEMO-0073,aluguel,apartamento,1426.19,49.0,3.0,0.0,Tarumã,-3.023438,-60.051078
+DEMO-0074,venda,comercial,568256.35,92.0,4.0,3.0,Colônia Santo Antônio,-3.034895,-60.011196
+DEMO-0075,aluguel,apartamento,6494.32,240.0,1.0,0.0,Parque 10 de Novembro,-3.083166,-60.014783
+DEMO-0076,venda,apartamento,211553.17,92.0,1.0,2.0,Mauazinho,-3.116519,-59.939756
+DEMO-0077,aluguel,comercial,8728.46,226.0,2.0,0.0,Lírio do Vale,-3.074398,-60.068455
+DEMO-0078,venda,casa,888697.61,178.0,1.0,3.0,Flores,-3.064352,-60.015154
+DEMO-0079,aluguel,comercial,2547.74,61.0,3.0,2.0,São José Operário,-3.065239,-59.952833
+DEMO-0080,venda,casa,306938.16,49.0,3.0,1.0,Centro,-3.129608,-60.018784
+DEMO-0081,aluguel,comercial,2777.42,122.0,3.0,3.0,Redenção,-3.054633,-60.043638
+DEMO-0082,venda,casa,630280.56,71.0,2.0,1.0,Nova Cidade,-2.99755,-59.97914
+DEMO-0083,aluguel,comercial,4256.18,137.0,2.0,2.0,Lago Azul,-2.948614,-59.995135
+DEMO-0084,venda,comercial,437242.48,66.0,2.0,0.0,Coroado,-3.091841,-59.968044
+DEMO-0085,aluguel,casa,3905.44,128.0,1.0,1.0,Japiim,-3.115058,-59.982446
+DEMO-0086,venda,apartamento,618507.91,109.0,2.0,1.0,Novo Aleixo,-3.050481,-59.968081
+DEMO-0087,aluguel,casa,2894.97,117.0,3.0,2.0,Compensa,-3.10437,-60.061164
+DEMO-0088,venda,apartamento,1792380.68,213.0,2.0,2.0,Colônia Santo Antônio,-3.033399,-60.011345
+DEMO-0089,aluguel,comercial,6234.88,217.0,1.0,3.0,Cidade de Deus,-3.021995,-59.946984
+DEMO-0090,venda,casa,1564026.63,215.0,4.0,1.0,Gilberto Mestrinho,-3.070445,-59.926364
+DEMO-0091,aluguel,comercial,7145.35,231.0,1.0,1.0,Compensa,-3.104236,-60.061628
+DEMO-0092,venda,comercial,349178.13,109.0,1.0,1.0,São José Operário,-3.066183,-59.95163
+DEMO-0093,aluguel,apartamento,4359.85,196.0,3.0,0.0,Colônia Antônio Aleixo,-3.102266,-59.902483
+DEMO-0094,venda,casa,1886243.05,259.0,2.0,3.0,Cidade Nova,-3.030745,-59.98217
+DEMO-0095,aluguel,casa,6636.62,243.0,3.0,0.0,Monte das Oliveiras,-3.004364,-59.996341
+DEMO-0096,venda,comercial,616821.15,76.0,4.0,3.0,Monte das Oliveiras,-3.00498,-59.996007
+DEMO-0097,aluguel,apartamento,7179.19,183.0,4.0,1.0,Flores,-3.06318,-60.014909
+DEMO-0098,venda,comercial,1257726.48,135.0,1.0,1.0,Armando Mendes,-3.089198,-59.939696
+DEMO-0099,aluguel,apartamento,5924.86,179.0,1.0,1.0,Redenção,-3.053965,-60.045
+DEMO-0100,venda,comercial,200932.73,58.0,4.0,3.0,Centro,-3.129395,-60.018644
+DEMO-0101,aluguel,comercial,6340.2,214.0,3.0,1.0,Cidade de Deus,-3.021614,-59.946568
+DEMO-0102,venda,casa,1687896.04,225.0,4.0,2.0,Santa Etelvina,-2.987791,-60.009766
+DEMO-0103,aluguel,casa,2112.38,107.0,2.0,1.0,Tancredo Neves,-3.055411,-59.942133
+DEMO-0104,venda,casa,1588685.42,241.0,1.0,0.0,Alvorada,-3.073552,-60.042714
+DEMO-0105,aluguel,comercial,5603.02,173.0,2.0,1.0,Zumbi dos Palmares,-3.078463,-59.946339
+DEMO-0106,venda,casa,492935.49,101.0,3.0,2.0,Tarumã-Açu,-2.965744,-60.062569
+DEMO-0107,aluguel,comercial,7912.35,256.0,3.0,2.0,Alvorada,-3.0745,-60.042781
+DEMO-0108,venda,casa,1790760.14,230.0,3.0,3.0,Nova Cidade,-2.998502,-59.978857
+DEMO-0109,aluguel,comercial,2386.95,131.0,1.0,1.0,Nova Cidade,-2.997173,-59.9798
+DEMO-0110,venda,comercial,281137.9,49.0,2.0,3.0,Japiim,-3.114142,-59.982297
+DEMO-0111,aluguel,casa,2174.31,93.0,3.0,0.0,Alvorada,-3.074235,-60.042952
+DEMO-0112,venda,apartamento,1913204.04,243.0,1.0,0.0,Gilberto Mestrinho,-3.070482,-59.927214
+DEMO-0113,aluguel,comercial,4052.87,244.0,3.0,3.0,Colônia Terra Nova,-3.011247,-60.01719
+DEMO-0114,venda,comercial,1497951.39,216.0,1.0,0.0,Petrópolis,-3.108965,-59.992961
+DEMO-0115,aluguel,casa,5737.63,249.0,3.0,0.0,Novo Aleixo,-3.051301,-59.967806
+DEMO-0116,venda,casa,865238.73,187.0,4.0,2.0,Novo Aleixo,-3.049759,-59.967803
+DEMO-0117,aluguel,casa,5001.16,196.0,1.0,1.0,Colônia Terra Nova,-3.010939,-60.017105
+DEMO-0118,venda,casa,431758.57,58.0,3.0,1.0,São Jorge,-3.10275,-60.036946
+DEMO-0119,aluguel,casa,5641.43,210.0,1.0,2.0,Lírio do Vale,-3.074879,-60.06905
+DEMO-0120,venda,casa,2368086.49,241.0,1.0,0.0,Compensa,-3.105015,-60.06118
+DEMO-0121,aluguel,apartamento,3409.71,162.0,4.0,2.0,Colônia Terra Nova,-3.010238,-60.01671
+DEMO-0122,venda,casa,1623565.11,251.0,3.0,3.0,Tarumã,-3.023594,-60.052196
+DEMO-0123,aluguel,apartamento,5192.62,163.0,2.0,2.0,Japiim,-3.115545,-59.981017
+DEMO-0124,venda,comercial,954349.63,183.0,1.0,1.0,Novo Aleixo,-3.050859,-59.966409
+DEMO-0125,aluguel,casa,1648.39,53.0,3.0,3.0,Zumbi dos Palmares,-3.077331,-59.945993
+DEMO-0126,venda,apartamento,1434897.64,258.0,4.0,2.0,Mauazinho,-3.116594,-59.940094
+DEMO-0127,aluguel,casa,3079.0,77.0,2.0,2.0,Tarumã,-3.023765,-60.051186
+DEMO-0128,venda,comercial,1108849.04,135.0,4.0,2.0,Santa Etelvina,-2.988139,-60.010773
+DEMO-0129,aluguel,apartamento,3411.99,165.0,2.0,2.0,Jorge Teixeira,-3.029932,-59.926447
+DEMO-0130,venda,comercial,409438.84,64.0,1.0,3.0,Tancredo Neves,-3.055422,-59.941818
+DEMO-0131,aluguel,casa,4877.44,147.0,1.0,0.0,Monte das Oliveiras,-3.004185,-59.997193
+DEMO-0132,venda,apartamento,244830.32,40.0,2.0,0.0,Redenção,-3.054196,-60.043978
+DEMO-0133,aluguel,comercial,3866.74,142.0,1.0,1.0,Zumbi dos Palmares,-3.078879,-59.947054
+DEMO-0134,venda,comercial,1734723.17,190.0,2.0,0.0,Tancredo Neves,-3.055536,-59.942657
+DEMO-0135,aluguel,comercial,6547.22,230.0,3.0,0.0,Santa Etelvina,-2.987841,-60.009473
+DEMO-0136,venda,comercial,331799.21,42.0,1.0,0.0,Cidade Nova,-3.031088,-59.981521
+DEMO-0137,aluguel,casa,1170.27,59.0,3.0,3.0,Jorge Teixeira,-3.030438,-59.925859
+DEMO-0138,venda,comercial,1307563.07,176.0,4.0,3.0,Flores,-3.063902,-60.015124
+DEMO-0139,aluguel,casa,7191.19,162.0,4.0,3.0,Tancredo Neves,-3.054398,-59.942558
+DEMO-0140,venda,apartamento,841646.03,110.0,3.0,1.0,Coroado,-3.091101,-59.967841
+DEMO-0141,aluguel,apartamento,6790.52,221.0,3.0,1.0,Parque 10 de Novembro,-3.082128,-60.014412
+DEMO-0142,venda,apartamento,1895926.71,199.0,3.0,3.0,São Jorge,-3.103649,-60.036357
+DEMO-0143,aluguel,apartamento,2695.64,91.0,3.0,2.0,Zumbi dos Palmares,-3.07754,-59.946275
+DEMO-0144,venda,comercial,1653224.06,258.0,1.0,2.0,Jorge Teixeira,-3.030041,-59.926319
+DEMO-0145,aluguel,comercial,4678.36,165.0,2.0,2.0,Alvorada,-3.074463,-60.04271
+DEMO-0146,venda,apartamento,216721.03,51.0,2.0,1.0,São José Operário,-3.066329,-59.952374
+DEMO-0147,aluguel,casa,1860.16,51.0,4.0,3.0,São Jorge,-3.103757,-60.037454
+DEMO-0148,venda,comercial,1146366.5,161.0,3.0,2.0,Redenção,-3.053989,-60.043869
+DEMO-0149,aluguel,comercial,5013.09,197.0,4.0,2.0,São José Operário,-3.065537,-59.952601
+DEMO-0150,venda,comercial,861302.91,154.0,1.0,3.0,Colônia Terra Nova,-3.011045,-60.016426
+DEMO-0151,aluguel,apartamento,2700.49,143.0,2.0,0.0,Tarumã,-3.022834,-60.051924
+DEMO-0152,venda,casa,450261.06,143.0,4.0,2.0,Zumbi dos Palmares,-3.077798,-59.945698
+DEMO-0153,aluguel,comercial,5703.65,183.0,4.0,2.0,Petrópolis,-3.109309,-59.993167
+DEMO-0154,venda,casa,1124740.74,230.0,1.0,0.0,Monte das Oliveiras,-3.003617,-59.996843
+DEMO-0155,aluguel,comercial,2432.48,86.0,4.0,2.0,Parque 10 de Novembro,-3.082216,-60.014069
+DEMO-0156,venda,casa,1344413.03,110.0,3.0,1.0,Cidade de Deus,-3.021483,-59.94708
+DEMO-0157,aluguel,casa,5290.32,150.0,2.0,1.0,Tarumã-Açu,-2.966273,-60.063186
+DEMO-0158,venda,apartamento,544870.4,75.0,2.0,0.0,Zumbi dos Palmares,-3.07823,-59.947026
+DEMO-0159,aluguel,comercial,4128.75,144.0,2.0,1.0,Mauazinho,-3.115961,-59.940526
+DEMO-BAD1,troca,casa,1.0,1.0,,,,,
+DEMO-BAD2,venda,casa,5000.0,100.0,,,,,
+DEMO-BAD3,venda,casa,400000.0,100.0,,,,10.0,10.0

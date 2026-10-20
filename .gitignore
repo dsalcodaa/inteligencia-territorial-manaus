@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.env
+# downloads brutos (432 MB) — reproduzíveis com `python -m app.ingest` / `app.cnefe`
+data/raw/
+# banco local (importações de imóveis) e artefatos de inspeção
+data/plataforma.sqlite
+data/*.pdf
+data/*.png

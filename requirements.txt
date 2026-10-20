@@ -1,0 +1,13 @@
+﻿fastapi
+uvicorn
+shapely
+pyogrio
+geopandas
+pandas
+httpx
+reportlab
+matplotlib
+pytest
+python-multipart
+openpyxl
+pymupdf
