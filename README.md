@@ -2,6 +2,9 @@
 
 Plano, matriz de fontes e arquitetura: `PLANO.md`.
 
+[![Abrir no Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dsalcodaa/inteligencia-territorial-manaus/blob/main/colab/painel.ipynb)
+— demonstração temporária (sessão do Colab + túnel público; não é hospedagem).
+
 ## Instalação e execução (Windows, PowerShell)
 ```
 cd $HOME\projetos\plataforma-territorial
